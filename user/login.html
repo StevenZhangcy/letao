@@ -49,7 +49,6 @@
     <script src="../res/mui/js/mui.min.js"></script>
     <script>
         // console.log(location.search)
-
         // 获取url
         var search = location.search.slice(1); // 获取在地址栏拼接过来的地址
         var reg = /url=(.+)/; // 用正则匹配一下传过来的地址
@@ -59,7 +58,6 @@
         // console.log(url);   
         console.log(macth);
         url = url || '/'; // 如果url为空则 直接跳转到首页  
-
         $('form').on('submit', function () {
             var data = $(this).serialize();
             $.ajax({
@@ -81,5 +79,4 @@
         })
     </script>
 </body>
-
 </html>
