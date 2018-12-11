@@ -1,0 +1,45 @@
+后台数据交互 
+	1 主要就是发送ajax请求后端 传值到后台交互
+	2 接收后端返回的数据  对象或者 json
+	3 运用temolate模板 进行渲染
+	4 渲染数据完毕 完善一些逻辑进程<登录流程>
+
+
+注意点: 
+	1 页面跳转涉及传参数
+	<a href="/user/login.html?id={{val.id}}&name=zs">
+	
+	2 接收上面参数的步骤 两种
+		① search = localtion.search.slice(1);   // id=1&name=zs;
+		   var ary = search.split('&')  //  ['id=1', 'name=zs']
+		   var itcast = {};
+		   ary.forEach( function (item) {
+			var temp = item.split('=');
+			itcast[temp[0]] = temp[1];利用对象存值
+			})
+		 {'id':1, 'name': zs}
+		② search = localtion.search.slice(1);   // id=1&name=zs;
+		   var reg = /url=(.+)/;  正则方法匹配字符串 匹配搜索栏
+		   var match = reg.exec(serarch);
+		如果页面跳转没有传值得话, match 得到是 null  
+		如果 有传送过来值 
+ 
+ 
+
+
+
+form 表单传值  
+<form>
+	input,,,
+
+
+
+</form>
+
+发送ajax请求 方便的方式 和  new FormData();
+	
+	获取的表单数据 这种方法都是利用name 传值
+	var data = $('form').serialize();
+
+
+ 

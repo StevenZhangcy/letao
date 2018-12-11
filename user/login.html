@@ -56,7 +56,8 @@
         var macth = reg.exec(search); // 运行正则函数 进行匹配  得到null或者一个数组   
         // console.log(macth);     
         var url = macth && macth[1];  // 如果要是从个人中心跳转 url 为null  如果从address跳转 则要匹配一个值 这里做一个判断
-        // console.log(url);     
+        // console.log(url);   
+        console.log(macth);
         url = url || '/'; // 如果url为空则 直接跳转到首页  
 
         $('form').on('submit', function () {

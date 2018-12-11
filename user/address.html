@@ -50,9 +50,9 @@
         {{each list val}}
             <li class="mui-table-view-cell">
                 <div class="mui-slider-right mui-disabled">
-                    <a href="javascript:;" class="mui-btn mui-btn-red" data_id="{{val.id}}">删除</a>
+                    <a href="javascript:;" class="mui-btn mui-btn-red">删除</a>
                 </div>
-                <a href="javascript:;" class="mui-navigate-right mui-slider-handle" data_id="{{val.id}}">
+                <a href="/user/edtify_address.html?url={{val.id}}" class="mui-navigate-right mui-slider-handle" data_id="{{val.id}}">
                     <div class="delivery">邮编：<span>{{val.postCode}}</span>&nbsp;收货人：<span>{{val.recipients}}</span></div>
                     <div class="address">{{val.address}} {{val.addressDetail}}</div>
                 </a>
@@ -67,9 +67,7 @@
             success: function (Msg) {
                 // console.log(Msg);
                 if (Msg.error) return location.href = '/user/login.html?url=' + location.href;
-                var str = template('tpl', {
-                    "list": Msg
-                });
+                var str = template('tpl', {list:Msg}); 
                 $('.mui-table-view').html(str);
             }
         });

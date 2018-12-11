@@ -24,13 +24,13 @@
         </header>
         <div class="cz_container">
             <div class="cate_slide">
-                <ul>
+                <ul id="top">
                     <!-- <li class="now">运动馆</li>
                     <li>女士馆</li>
                     <li>男士馆</li>
                     <li>帆布馆</li>
                     <li>户外馆</li> -->
-                </ul> 
+                </ul>
             </div>
             <div class="cate_content">
                 <div class="mui-scroll-wrapper">
@@ -65,33 +65,7 @@
                                     <p>耐克</p>
                                 </a></li>
                         </ul>
-                        <span class="title">运动休闲</span>
-                        <ul class="mui-clearfix">
-                            <li><a href="#"><img src="images/brand1.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand2.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand3.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand4.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand5.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand6.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand7.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                            <li><a href="#"><img src="images/brand8.png" alt="" />
-                                    <p>耐克</p>
-                                </a></li>
-                        </ul>
+                        <div class="second"></div>
                     </div>
                 </div>
             </div>
@@ -107,48 +81,64 @@
     <script src="res/mui/js/mui.min.js"></script>
     <script src="./js/wendors/template-web.js"></script>
     <script type="text/template" id="tpl_top">
-        {{each list val}}
-        <!-- class="<script>val[0]?now : ''; </script>"  -->
-            <li >{{val.categoryName}}</li>
-        {{/each}}
-</script>
-    <script type="text/template" id="tpl_second"></script>
+        {{each rows val}}
+        <!-- class="<script>val[0]?now : ''; </script>" -->
+    <li data_id="{{val.id}}">{{val.categoryName}}</li>
+    {{/each}}
+    </script>
+    <script type="text/template" id="tpl_second">
+        <span class="title">{{text}}</span>
+        <ul class="mui-clearfix">
+            {{each rows val}}
+            <li>
+                <a href="#">
+                    <img src="/api{{val.brandLogo}}" alt="" />
+                    <p>{{val.brandName}}</p>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
     <script>
         mui(function () {
-            mui('.mui-scroll-wrapper').scroll({
-                scrollY: true, //是否竖向滚动
-                scrollX: false, //是否横向滚动
-                startX: 0, //初始化时滚动至x
-                startY: 0, //初始化时滚动至y
-                indicators: false, //是否显示滚动条
-                deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
-                bounce: true, //是否启用回弹
-            });
+            mui('.mui-scroll-wrapper').scroll();
         });
-    // TOP
+        // 页面刷新加载作别top栏 发送ajax
+        // TOP
         $.ajax({
             url: '/api/category/queryTopCategory',
             type: 'get',
             success: function (Msg) {
                 console.log(Msg);
-                var str = template('tpl_top', {
-                    "list": Msg.rows
-                });
-                $('.cate_slide ul').html(str);
+                var str = template('tpl_top', Msg);
+                $('#top').html(str);
+                // 页面刷新后 自动点击第一li
+                $('#top li:eq(0)').trigger('click');
+
             }
         })
-    // SECOND
-         $.ajax({
-            url: '/api/category/querySecondCategory',
-            type: 'get',
-            success: function (Msg) {
-                console.log(Msg);
-                var str = template('tpl_top', {
-                    "list": Msg.rows
-                });
-                // $('.cate_slide ul').html(str);
-            }
-        })
+        // Top注册点击事件
+        $('.cate_slide ul').on('click', 'li', function () {
+            $(this).addClass('now').siblings().removeClass('now');
+
+            var id = $(this).attr('data_id');
+            var text = $(this).text();
+            // 点击li按钮 发送二级ajax请求
+            // SECOND
+            $.ajax({
+                url: '/api/category/querySecondCategory',
+                type: 'get',
+                data: {
+                    id: id
+                },
+                success: function (Msg) {
+                    console.log(Msg);
+                    Msg.text = text;
+                    var str = template('tpl_second', Msg);
+                    $('.second').html(str);
+                }
+            });
+        });
     </script>
 </body>
 

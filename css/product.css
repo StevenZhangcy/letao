@@ -129,5 +129,9 @@ body{
 .p_option .btn_pay{
     float: right;
     margin-right: 6px;
-    background-color: #fa672d;
+    background-color: #8a9653;
+}
+
+.active {
+    background-color: #8a9653;
 }
