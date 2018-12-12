@@ -109,7 +109,7 @@
             url: '/api/category/queryTopCategory',
             type: 'get',
             success: function (Msg) {
-                console.log(Msg);
+                // console.log(Msg);
                 var str = template('tpl_top', Msg);
                 $('#top').html(str);
                 // 页面刷新后 自动点击第一li
